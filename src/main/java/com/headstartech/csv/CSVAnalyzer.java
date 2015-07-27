@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by per on 7/24/15.
  */
-interface CSVAnalyzer {
+public interface CSVAnalyzer {
 
     void process(List<String> fields);
 

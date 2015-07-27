@@ -1,6 +1,7 @@
 package com.headstartech.csv;
 
 import com.google.common.io.Files;
+import groovy.lang.GroovyClassLoader;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -31,13 +32,23 @@ public class Application implements CommandLineRunner {
         SpringApplication.run(Application.class, args);
     }
 
-	public void run(String... args) throws IOException {
+	public void run(String... args) throws IOException, IllegalAccessException, InstantiationException {
 
-        log.info("Args = {}", args);
+        File groovyScript = new File(args[0]);
+        log.info("Loading Groovy script: file={}", groovyScript.getAbsolutePath());
 
-        List<File> inputFiles = collectFiles(args[0]);
+        GroovyClassLoader gcl = new GroovyClassLoader();
+        Class clazz = gcl.parseClass(groovyScript);
+        Object groovyObject = clazz.newInstance();
+        if(!(groovyObject instanceof CSVAnalyzer)) {
+            log.info("Groovy class must implement {}", CSVAnalyzer.class.getSimpleName());
+            return;
+        }
 
-        CSVAnalyzer analyzer = new RowCount();
+        CSVAnalyzer analyzer = (CSVAnalyzer) groovyObject;
+
+        List<File> inputFiles = collectFiles(args[1]);
+
         for(File inputFile : inputFiles) {
             processFile(inputFile, Charset.defaultCharset(), new CSVProcessor(',', analyzer));
         }
@@ -82,7 +93,7 @@ public class Application implements CommandLineRunner {
     private List<File> collectFiles(String path) {
         File f = new File(path);
 
-        List<File> res = new ArrayList<>();
+        List<File> res = new ArrayList<File>();
         if(f.isDirectory()) {
             String[] files = f.list();
             for(String name : files) {
