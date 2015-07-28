@@ -2,16 +2,14 @@ package com.headstartech.csv;
 
 import com.google.common.io.Files;
 import groovy.lang.GroovyClassLoader;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,10 +27,26 @@ public class Application implements CommandLineRunner {
     private static Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application.class, args);
+        new SpringApplicationBuilder()
+                .showBanner(false)
+                .logStartupInfo(false)
+                .sources(Application.class)
+                .run(args);
     }
 
-	public void run(String... args) throws IOException, IllegalAccessException, InstantiationException {
+	public void run(String... args) throws IOException, IllegalAccessException, InstantiationException, ParseException {
+
+        Options options = new Options();
+        options.addOption("h", false, "Print this message");
+
+        CommandLineParser parser = new ExtendedPosixParser();
+        CommandLine cmd = parser.parse(options, args);
+
+        if (cmd.hasOption("h")) {
+            printHelp(options);
+            System.exit(0);
+        }
+
 
         File groovyScript = new File(args[0]);
         log.info("Loading Groovy script: file={}", groovyScript.getAbsolutePath());
