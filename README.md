@@ -54,6 +54,7 @@ The result is written to `/tmp/fieldlength.out`:
 ## Misc
 ### Wildcards 
 Wildcards are supported to read multiple csv files. 
+
 `$ java -jar csv-analyzer-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i "*.csv"`
 
-*Note the `"` around the input file argument!*
+**Note the `"` around the input file argument!**
