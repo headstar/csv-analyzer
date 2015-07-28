@@ -9,7 +9,9 @@ import java.util.List;
  */
 public interface CSVAnalyzer {
 
+    void setOutputWriter(PrintWriter out);
+
     void process(List<String> fields);
 
-    void printResult(PrintWriter out);
+    void lastFileProcessed();
 }

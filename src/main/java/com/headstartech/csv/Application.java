@@ -97,15 +97,18 @@ public class Application implements CommandLineRunner {
             System.exit(0);
         }
 
-        for(File inputFile : inputFiles) {
-            processFile(inputFile, Charset.defaultCharset(), new CSVProcessor(',', analyzer));
-        }
-
-        log.info("Writing report to {}", output.getAbsoluteFile());
+        log.info("Output written to {}", output.getAbsoluteFile());
         PrintWriter pw = new PrintWriter(output);
-        analyzer.printResult(pw);
-        pw.flush();
-        pw.close();
+        try {
+            analyzer.setOutputWriter(pw);
+            for (File inputFile : inputFiles) {
+                processFile(inputFile, Charset.defaultCharset(), new CSVProcessor(',', analyzer));
+            }
+            analyzer.lastFileProcessed();
+        } finally {
+            pw.flush();
+            pw.close();
+        }
 	}
 
     /**
