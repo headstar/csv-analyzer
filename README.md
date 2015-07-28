@@ -50,3 +50,10 @@ The result is written to `/tmp/fieldlength.out`:
     Min: 3.00
     Max: 5.00
     Mean: 3.89
+
+## Misc
+### Wildcards 
+Wildcards are supported to read multiple csv files. 
+`$ java -jar csv-analyzer-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i "*.csv"`
+
+*Note the `"` around the input file argument!*
