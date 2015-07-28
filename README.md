@@ -8,9 +8,9 @@ Utility to perform analysis on csv files when `grep`, `sed`, `awk` and `cut` are
 
 Example csv file:
 
-   The,quick,brown
-   fox,jumps
-   over,the,lazy,dog
+    The,quick,brown
+    fox,jumps
+    over,the,lazy,dog
 
 
 To generate field length statistics, the following groovy script will do the trick:
