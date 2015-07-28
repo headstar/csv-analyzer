@@ -1,5 +1,5 @@
 # CSV analyzer
-Utility to perform analysis on csv files when `grep`, `sed`, `awk` and `cut` aren't enough.
+Utility tool to perform ad-hoc analysis on csv files when `grep`, `sed`, `awk` and `cut` aren't enough.
 
 ## Prerequisites
 * Java 6 (or later)
