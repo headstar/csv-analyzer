@@ -15,7 +15,7 @@ public abstract class AbstractCSVAnalyzer implements CSVAnalyzer {
     }
 
     @Override
-    public void lastFileProcessed() {
+    public void afterLastRow() {
         // do nothing
     }
 

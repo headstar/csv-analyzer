@@ -22,7 +22,7 @@ class CSVProcessor implements LineProcessor<Object> {
     @Override
     public boolean processLine(String line) throws IOException {
         List<String> fields = splitter.splitToList(line);
-        analyzer.process(fields);
+        analyzer.processRow(fields);
         return true;
     }
 

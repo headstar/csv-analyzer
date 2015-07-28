@@ -1,17 +1,29 @@
 package com.headstartech.csv;
 
-import java.io.File;
 import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Created by per on 7/24/15.
+ * Interface to be implemented in a Groovy script.
  */
 public interface CSVAnalyzer {
 
+    /**
+     * Sets the writer to use when writing the output result. The calling application will flush and close the writer.
+     * @param out
+     */
     void setOutputWriter(PrintWriter out);
 
-    void process(List<String> fields);
+    /**
+     * Called for every row in the input csv files.
+     *
+     * @param fields
+     * @return <code>true</code> to continue processing, <code>false</code> to stop
+     */
+    boolean processRow(List<String> fields);
 
-    void lastFileProcessed();
+    /**
+     * Called when all rows have been read or {@link #processRow(List)} returned <code>false</code>.
+     */
+    void afterLastRow();
 }
