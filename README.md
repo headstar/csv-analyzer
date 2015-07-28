@@ -23,7 +23,7 @@ To generate field length statistics, the following groovy script will do the tri
       private DescriptiveStatistics stats = new DescriptiveStatistics();
   
       @Override
-      boolean processRow(List<String> fields);
+      boolean processRow(List<String> fields) {
           for (String field : fields) {
               stats.addValue(field.length());
           }
