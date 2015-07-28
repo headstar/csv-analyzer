@@ -26,6 +26,8 @@ public class Application implements CommandLineRunner {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
 
+    private static final String OUTPUT_FILE_DEFAULT = "/tmp/csv-analyzer-report.log";
+
     public static void main(String[] args) throws Exception {
         new SpringApplicationBuilder()
                 .showBanner(false)
@@ -38,17 +40,46 @@ public class Application implements CommandLineRunner {
 
         Options options = new Options();
         options.addOption("h", false, "Print this message");
+        Option outputOption = Option.builder("o")
+                .hasArg()
+                .required(false)
+                .desc("Output file")
+                .build();
+        options.addOption(outputOption);
+        Option scriptOption = Option.builder("s")
+                .hasArg()
+                .required()
+                .desc("groovy script")
+                .build();
+        options.addOption(scriptOption);
+        Option inputOption = Option.builder("i")
+                .hasArg()
+                .required()
+                .desc("input file/directory (filename wildcards accepted)")
+                .build();
+        options.addOption(inputOption);
+
 
         CommandLineParser parser = new ExtendedPosixParser();
-        CommandLine cmd = parser.parse(options, args);
+        CommandLine cmd = null;
+        try {
+             cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            log.error(e.getMessage());
+            printHelp(options);
+            System.exit(1);
+        }
 
         if (cmd.hasOption("h")) {
             printHelp(options);
             System.exit(0);
         }
 
-        File groovyScript = new File(args[0]);
-        log.info("Loading Groovy script: file={}", groovyScript.getAbsolutePath());
+        File output = new File(cmd.getOptionValue("o"));
+        File groovyScript = new File(cmd.getOptionValue("s"));
+        String inputFilePath = cmd.getOptionValue("i");
+
+        log.info("Loading Groovy script {}", groovyScript.getAbsolutePath());
 
         GroovyClassLoader gcl = new GroovyClassLoader();
         Class clazz = gcl.parseClass(groovyScript);
@@ -57,19 +88,21 @@ public class Application implements CommandLineRunner {
             log.info("Groovy class must implement {}", CSVAnalyzer.class.getSimpleName());
             return;
         }
-
         CSVAnalyzer analyzer = (CSVAnalyzer) groovyObject;
 
-        List<File> inputFiles = collectFiles(args[1]);
+        List<File> inputFiles = collectFiles(inputFilePath);
+
+        if(inputFiles.isEmpty()) {
+            log.warn("No files matching {}", inputFilePath);
+            System.exit(0);
+        }
 
         for(File inputFile : inputFiles) {
             processFile(inputFile, Charset.defaultCharset(), new CSVProcessor(',', analyzer));
         }
 
-        File report = new File("/tmp/a.out");
-
-        log.info("Writing report to {}", report.getAbsoluteFile());
-        PrintWriter pw = new PrintWriter(report);
+        log.info("Writing report to {}", output.getAbsoluteFile());
+        PrintWriter pw = new PrintWriter(output);
         analyzer.printResult(pw);
         pw.flush();
         pw.close();
@@ -95,7 +128,7 @@ public class Application implements CommandLineRunner {
     private static void printHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.setWidth(120);
-        formatter.printHelp("java -jar csv-analyzer.jar", options);
+        formatter.printHelp("java -jar csv-analyzer.jar [options]", options);
     }
 
     private void processFile(File f, Charset charset, CSVProcessor processor) throws IOException {
@@ -118,8 +151,10 @@ public class Application implements CommandLineRunner {
                 parent = new File(System.getProperty("user.dir"));
             }
             String[] matchingFilenames = parent.list(new WildcardFileFilter(f.getName()));
-            for(String name : matchingFilenames) {
-                res.add(new File(f.getParentFile(), name));
+            if(matchingFilenames != null) {
+                for (String name : matchingFilenames) {
+                    res.add(new File(f.getParentFile(), name));
+                }
             }
         }
 
