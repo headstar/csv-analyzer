@@ -22,6 +22,12 @@ To generate field length statistics, the following groovy script will do the tri
   
       private DescriptiveStatistics stats = new DescriptiveStatistics();
   
+      /**
+      * Called for every row in the input file(s).
+      *
+      * @param fields
+      * @return <code>true</code> to continue processing, <code>false</code> to stop
+      */
       @Override
       boolean processRow(List<String> fields) {
           for (String field : fields) {
@@ -30,6 +36,9 @@ To generate field length statistics, the following groovy script will do the tri
           return true;
       }
   
+      /**
+      * Called when all rows have been read or {@link #processRow(List)} returned <code>false</code>.
+      */
       @Override
       void afterLastRow() {
           getOutputWriter().println(String.format("N: %d", stats.getN()));
