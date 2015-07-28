@@ -35,10 +35,6 @@ To generate field length statistics, the following groovy script will do the tri
           getOutputWriter().println(String.format("Min: %.2f", stats.getMin()));
           getOutputWriter().println(String.format("Max: %.2f", stats.getMax()));
           getOutputWriter().println(String.format("Mean: %.2f", stats.getMean()));
-  
-          for (double d = 10; d < 100; d += 10) {
-              getOutputWriter().println(String.format("Percentile %.0f: %.2f", d, stats.getPercentile(d)));
-          }
       }
     }
 
@@ -54,12 +50,3 @@ The result is written to `/tmp/fieldlength.out`:
     Min: 3.00
     Max: 5.00
     Mean: 3.89
-    Percentile 10: 3.00
-    Percentile 20: 3.00
-    Percentile 30: 3.00
-    Percentile 40: 3.00
-    Percentile 50: 4.00
-    Percentile 60: 4.00
-    Percentile 70: 5.00
-    Percentile 80: 5.00
-    Percentile 90: 5.00
