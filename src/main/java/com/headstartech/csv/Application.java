@@ -47,7 +47,6 @@ public class Application implements CommandLineRunner {
             System.exit(0);
         }
 
-
         File groovyScript = new File(args[0]);
         log.info("Loading Groovy script: file={}", groovyScript.getAbsolutePath());
 
