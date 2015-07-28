@@ -23,14 +23,15 @@ To generate field length statistics, the following groovy script will do the tri
       private DescriptiveStatistics stats = new DescriptiveStatistics();
   
       @Override
-      void process(List<String> fields) {
+      boolean processRow(List<String> fields);
           for (String field : fields) {
               stats.addValue(field.length());
           }
+          return true;
       }
   
       @Override
-      void lastFileProcessed() {
+      void afterLastRow() {
           getOutputWriter().println(String.format("N: %d", stats.getN()));
           getOutputWriter().println(String.format("Min: %.2f", stats.getMin()));
           getOutputWriter().println(String.format("Max: %.2f", stats.getMax()));
