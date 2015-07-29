@@ -41,3 +41,5 @@ dependencies {
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.5'
 }
+
+sourceCompatibility = '1.6'
