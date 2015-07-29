@@ -1,4 +1,4 @@
-# CSV analyzer
+# enodo
 Utility tool to perform ad-hoc analysis on csv files when `grep`, `sed`, `awk` and `cut` aren't enough.
 
 ## Prerequisites
