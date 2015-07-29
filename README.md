@@ -5,7 +5,7 @@ Utility tool to perform ad-hoc analysis on csv files when `grep`, `sed`, `awk` a
 * Java 6 (or later)
 
 ## Build
-* `$ git clone https://github.com/headstar/csv-analyzer`
+* `$ git clone https://github.com/headstar/csv-analyzer.git`
 * `$ cd csv-analyzer`
 * `$ ./gradlew build`
 
