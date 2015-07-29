@@ -74,7 +74,7 @@ public class Application implements CommandLineRunner {
             System.exit(0);
         }
 
-        File output = new File(cmd.getOptionValue("o"));
+        File output = new File(cmd.getOptionValue("o", String.format("%s%scsv-analyzer.out", System.getProperty("java.io.tmpdir"), System.getProperty("file.separator"))));
         File groovyScript = new File(cmd.getOptionValue("s"));
         String inputFilePath = cmd.getOptionValue("i");
 
