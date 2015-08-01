@@ -42,7 +42,7 @@ To generate field length statistics, the following groovy script will do the tri
         }
 
         /**
-         * Called when all rows have been read or {@link #processRow(List)} returned                  <code>false</code>.
+         * Called when all rows have been read or {@link #processRow(List)} returned <code>false</code>.
          */
         @Override
         void afterLastRow() {
