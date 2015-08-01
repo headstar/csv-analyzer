@@ -87,7 +87,7 @@ public class Application implements CommandLineRunner {
             log.info("Groovy class must implement {}", CSVProcessor.class.getSimpleName());
             return;
         }
-        CSVProcessor analyzer = (CSVProcessor) groovyObject;
+        CSVProcessor processor = (CSVProcessor) groovyObject;
 
         List<File> inputFiles = collectFiles(inputFilePath);
 
@@ -99,11 +99,11 @@ public class Application implements CommandLineRunner {
         log.info("Output written to {}", output.getAbsoluteFile());
         PrintWriter pw = new PrintWriter(output);
         try {
-            analyzer.setOutputWriter(pw);
+            processor.setOutputWriter(pw);
             for (File inputFile : inputFiles) {
-                processFile(inputFile, Charset.defaultCharset(), new CSVReader(',', analyzer));
+                processFile(inputFile, Charset.defaultCharset(), new CSVReader(',', processor));
             }
-            analyzer.afterLastRow();
+            processor.afterLastRow();
         } finally {
             pw.flush();
             pw.close();
