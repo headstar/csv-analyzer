@@ -57,7 +57,7 @@ To generate field length statistics, the following groovy script will do the tri
   
 Run the utility:
 
-`$ java -jar enodo-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i example.csv`
+`$ java -jar enodo-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthCount.groovy -i example.csv`
   
 The result is written to `/tmp/fieldlength.out`:
 
