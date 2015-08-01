@@ -14,8 +14,8 @@ class CSVReader implements LineProcessor<Object> {
     private final Splitter splitter;
     private final CSVProcessor processor;
 
-    public CSVReader(CSVProcessor processor) {
-        this.splitter = Splitter.on(processor.separator());
+    public CSVReader(String separator, CSVProcessor processor) {
+        this.splitter = Splitter.on(separator);
         this.processor = processor;
     }
 

@@ -57,6 +57,12 @@ public class Application implements CommandLineRunner {
                 .desc("input file/directory (filename wildcards accepted)")
                 .build();
         options.addOption(inputOption);
+        Option separatorOption = Option.builder("c")
+                .hasArg()
+                .required(false)
+                .desc("String to use as separator (default ','")
+                .build();
+        options.addOption(separatorOption);
 
 
         CommandLineParser parser = new ExtendedPosixParser();
@@ -77,6 +83,7 @@ public class Application implements CommandLineRunner {
         File output = new File(cmd.getOptionValue("o", String.format("%s%senodo.out", System.getProperty("java.io.tmpdir"), System.getProperty("file.separator"))));
         File groovyScript = new File(cmd.getOptionValue("s"));
         String inputFilePath = cmd.getOptionValue("i");
+        String separator = cmd.getOptionValue("c", ",");
 
         log.info("Loading Groovy script {}", groovyScript.getAbsolutePath());
 
@@ -101,7 +108,7 @@ public class Application implements CommandLineRunner {
         try {
             processor.setOutputWriter(pw);
             for (File inputFile : inputFiles) {
-                processFile(inputFile, Charset.defaultCharset(), new CSVReader(processor));
+                processFile(inputFile, Charset.defaultCharset(), new CSVReader(separator, processor));
             }
             processor.afterLastRow();
         } finally {

@@ -27,9 +27,4 @@ public interface CSVProcessor {
      */
     void afterLastRow();
 
-    /**
-     * CSV separator
-     * @return
-     */
-    Character separator();
 }
