@@ -49,7 +49,7 @@ To generate field length statistics, the following groovy script will do the tri
             getOutputWriter().println(String.format("N: %d", stats.getN()));
             getOutputWriter().println(String.format("Min: %.2f", stats.getMin()));
             getOutputWriter().println(String.format("Max: %.2f", stats.getMax()));
-           getOutputWriter().println(String.format("Mean: %.2f", stats.getMean()));
+            getOutputWriter().println(String.format("Mean: %.2f", stats.getMean()));
         }
     }
 
