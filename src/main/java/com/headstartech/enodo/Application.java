@@ -101,7 +101,7 @@ public class Application implements CommandLineRunner {
         try {
             processor.setOutputWriter(pw);
             for (File inputFile : inputFiles) {
-                processFile(inputFile, Charset.defaultCharset(), new CSVReader(',', processor));
+                processFile(inputFile, Charset.defaultCharset(), new CSVReader(processor));
             }
             processor.afterLastRow();
         } finally {

@@ -19,6 +19,11 @@ public abstract class AbstractCSVProcessor implements CSVProcessor {
         // do nothing
     }
 
+    @Override
+    public Character separator() {
+        return ',';
+    }
+
     protected PrintWriter getOutputWriter() {
         return out;
     }

@@ -26,4 +26,10 @@ public interface CSVProcessor {
      * Called when all rows have been read or {@link #processRow(List)} returned <code>false</code>.
      */
     void afterLastRow();
+
+    /**
+     * CSV separator
+     * @return
+     */
+    Character separator();
 }

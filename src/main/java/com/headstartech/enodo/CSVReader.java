@@ -12,17 +12,17 @@ import java.util.List;
 class CSVReader implements LineProcessor<Object> {
 
     private final Splitter splitter;
-    private final CSVProcessor analyzer;
+    private final CSVProcessor processor;
 
-    public CSVReader(char separator, CSVProcessor analyzer) {
-        this.splitter = Splitter.on(separator);
-        this.analyzer = analyzer;
+    public CSVReader(CSVProcessor processor) {
+        this.splitter = Splitter.on(processor.separator());
+        this.processor = processor;
     }
 
     @Override
     public boolean processLine(String line) throws IOException {
         List<String> fields = splitter.splitToList(line);
-        return analyzer.processRow(fields);
+        return processor.processRow(fields);
     }
 
     @Override
