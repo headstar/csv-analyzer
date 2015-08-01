@@ -60,7 +60,7 @@ public class Application implements CommandLineRunner {
         Option separatorOption = Option.builder("c")
                 .hasArg()
                 .required(false)
-                .desc("String to use as separator (default ','")
+                .desc("String to use as separator (default ',')")
                 .build();
         options.addOption(separatorOption);
 
