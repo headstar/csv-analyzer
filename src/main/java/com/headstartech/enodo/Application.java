@@ -37,47 +37,58 @@ public class Application implements CommandLineRunner {
 
 	public void run(String... args) throws IOException, IllegalAccessException, InstantiationException, ParseException {
 
-        Options options = new Options();
-        options.addOption("h", false, "Print this message");
+        Options options1 = new Options();
+        options1.addOption("h", "help", false, "Print this message");
+
+        Options options2 = new Options();
+        options2.addOption("h", "help", false, "Print this message");
         Option outputOption = Option.builder("o")
                 .hasArg()
                 .required(false)
                 .desc("Output file")
                 .build();
-        options.addOption(outputOption);
+        options2.addOption(outputOption);
         Option scriptOption = Option.builder("s")
                 .hasArg()
                 .required()
                 .desc("groovy script")
                 .build();
-        options.addOption(scriptOption);
+        options2.addOption(scriptOption);
         Option inputOption = Option.builder("i")
                 .hasArg()
                 .required()
                 .desc("input file/directory (filename wildcards accepted)")
                 .build();
-        options.addOption(inputOption);
+        options2.addOption(inputOption);
         Option separatorOption = Option.builder("c")
                 .hasArg()
                 .required(false)
                 .desc("String to use as separator (default ',')")
                 .build();
-        options.addOption(separatorOption);
-
+        options2.addOption(separatorOption);
 
         CommandLineParser parser = new ExtendedPosixParser();
-        CommandLine cmd = null;
+        CommandLine helpCommand = null;
         try {
-             cmd = parser.parse(options, args);
+            helpCommand = parser.parse(options1, args);
         } catch (ParseException e) {
             log.error(e.getMessage());
-            printHelp(options);
+            printHelp(options2);
             System.exit(1);
         }
 
-        if (cmd.hasOption("h")) {
-            printHelp(options);
+        if(helpCommand.getOptions().length > 0) {
+            printHelp(options2);
             System.exit(0);
+        }
+
+        CommandLine cmd = null;
+        try {
+             cmd = parser.parse(options2, args);
+        } catch (ParseException e) {
+            log.error(e.getMessage());
+            printHelp(options2);
+            System.exit(1);
         }
 
         File output = new File(cmd.getOptionValue("o", String.format("%s%senodo.out", System.getProperty("java.io.tmpdir"), System.getProperty("file.separator"))));
@@ -137,7 +148,7 @@ public class Application implements CommandLineRunner {
     private static void printHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.setWidth(120);
-        formatter.printHelp("java -jar enodo-analyzer.jar [options]", options);
+        formatter.printHelp("java -jar enodo-1.0.0.jar [options]", options);
     }
 
     private void processFile(File f, Charset charset, CSVReader processor) throws IOException {
