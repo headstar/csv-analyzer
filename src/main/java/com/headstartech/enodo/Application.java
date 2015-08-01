@@ -1,4 +1,4 @@
-package com.headstartech.csv;
+package com.headstartech.enodo;
 
 import com.google.common.io.Files;
 import groovy.lang.GroovyClassLoader;
@@ -25,7 +25,7 @@ public class Application implements CommandLineRunner {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
 
-    private static final String OUTPUT_FILE_DEFAULT = "/tmp/csv-analyzer-report.log";
+    private static final String OUTPUT_FILE_DEFAULT = "/tmp/enodo-analyzer-report.log";
 
     public static void main(String[] args) throws Exception {
         new SpringApplicationBuilder()
@@ -130,7 +130,7 @@ public class Application implements CommandLineRunner {
     private static void printHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.setWidth(120);
-        formatter.printHelp("java -jar csv-analyzer.jar [options]", options);
+        formatter.printHelp("java -jar enodo-analyzer.jar [options]", options);
     }
 
     private void processFile(File f, Charset charset, CSVProcessor processor) throws IOException {

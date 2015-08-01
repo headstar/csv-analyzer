@@ -1,4 +1,4 @@
-package com.headstartech.csv;
+package com.headstartech.enodo;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,7 +15,7 @@ public interface CSVAnalyzer {
     void setOutputWriter(PrintWriter out);
 
     /**
-     * Called for every row in the input csv files.
+     * Called for every row in the input enodo files.
      *
      * @param fields
      * @return <code>true</code> to continue processing, <code>false</code> to stop

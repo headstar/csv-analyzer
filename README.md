@@ -20,7 +20,7 @@ Example csv file:
 
 To generate field length statistics, the following groovy script will do the trick:
 
-    import com.headstartech.csv.AbstractCSVAnalyzer
+    import com.headstartech.enodo.AbstractCSVAnalyzer
     import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
     
     public class FieldLengthCount extends AbstractCSVAnalyzer {
