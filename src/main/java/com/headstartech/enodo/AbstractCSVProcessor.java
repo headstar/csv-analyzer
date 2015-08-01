@@ -3,9 +3,9 @@ package com.headstartech.enodo;
 import java.io.PrintWriter;
 
 /**
- * Convenience base class for a {@link CSVAnalyzer}.
+ * Convenience base class for a {@link CSVProcessor}.
  */
-public abstract class AbstractCSVAnalyzer implements CSVAnalyzer {
+public abstract class AbstractCSVProcessor implements CSVProcessor {
 
     private PrintWriter out;
 

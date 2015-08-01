@@ -1,33 +1,29 @@
 package com.headstartech.enodo;
 
-import com.google.common.base.Splitter;
-import com.google.common.io.LineProcessor;
-
-import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Created by per on 7/24/15.
+ * Interface to be implemented in a Groovy script.
  */
-class CSVProcessor implements LineProcessor<Object> {
+public interface CSVProcessor {
 
-    private final Splitter splitter;
-    private final CSVAnalyzer analyzer;
+    /**
+     * Sets the writer to use when writing the output result. The calling application will flush and close the writer.
+     * @param out
+     */
+    void setOutputWriter(PrintWriter out);
 
-    public CSVProcessor(char separator, CSVAnalyzer analyzer) {
-        this.splitter = Splitter.on(separator);
-        this.analyzer = analyzer;
-    }
+    /**
+     * Called for every row in the input enodo files.
+     *
+     * @param fields
+     * @return <code>true</code> to continue processing, <code>false</code> to stop
+     */
+    boolean processRow(List<String> fields);
 
-    @Override
-    public boolean processLine(String line) throws IOException {
-        List<String> fields = splitter.splitToList(line);
-        analyzer.processRow(fields);
-        return true;
-    }
-
-    @Override
-    public Object getResult() {
-        return null;
-    }
+    /**
+     * Called when all rows have been read or {@link #processRow(List)} returned <code>false</code>.
+     */
+    void afterLastRow();
 }

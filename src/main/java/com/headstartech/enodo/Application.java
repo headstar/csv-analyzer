@@ -74,7 +74,7 @@ public class Application implements CommandLineRunner {
             System.exit(0);
         }
 
-        File output = new File(cmd.getOptionValue("o", String.format("%s%scsv-analyzer.out", System.getProperty("java.io.tmpdir"), System.getProperty("file.separator"))));
+        File output = new File(cmd.getOptionValue("o", String.format("%s%senodo.out", System.getProperty("java.io.tmpdir"), System.getProperty("file.separator"))));
         File groovyScript = new File(cmd.getOptionValue("s"));
         String inputFilePath = cmd.getOptionValue("i");
 
@@ -83,11 +83,11 @@ public class Application implements CommandLineRunner {
         GroovyClassLoader gcl = new GroovyClassLoader();
         Class clazz = gcl.parseClass(groovyScript);
         Object groovyObject = clazz.newInstance();
-        if(!(groovyObject instanceof CSVAnalyzer)) {
-            log.info("Groovy class must implement {}", CSVAnalyzer.class.getSimpleName());
+        if(!(groovyObject instanceof CSVProcessor)) {
+            log.info("Groovy class must implement {}", CSVProcessor.class.getSimpleName());
             return;
         }
-        CSVAnalyzer analyzer = (CSVAnalyzer) groovyObject;
+        CSVProcessor analyzer = (CSVProcessor) groovyObject;
 
         List<File> inputFiles = collectFiles(inputFilePath);
 
@@ -101,7 +101,7 @@ public class Application implements CommandLineRunner {
         try {
             analyzer.setOutputWriter(pw);
             for (File inputFile : inputFiles) {
-                processFile(inputFile, Charset.defaultCharset(), new CSVProcessor(',', analyzer));
+                processFile(inputFile, Charset.defaultCharset(), new CSVReader(',', analyzer));
             }
             analyzer.afterLastRow();
         } finally {
@@ -133,7 +133,7 @@ public class Application implements CommandLineRunner {
         formatter.printHelp("java -jar enodo-analyzer.jar [options]", options);
     }
 
-    private void processFile(File f, Charset charset, CSVProcessor processor) throws IOException {
+    private void processFile(File f, Charset charset, CSVReader processor) throws IOException {
         log.info("Processing {}", f.getAbsolutePath());
         Files.readLines(f, charset, processor);
     }
