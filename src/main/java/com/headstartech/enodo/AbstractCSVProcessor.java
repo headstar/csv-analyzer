@@ -1,11 +1,17 @@
 package com.headstartech.enodo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.PrintWriter;
 
 /**
  * Convenience base class for a {@link CSVProcessor}.
  */
 public abstract class AbstractCSVProcessor implements CSVProcessor {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     private PrintWriter out;
 
@@ -22,4 +28,6 @@ public abstract class AbstractCSVProcessor implements CSVProcessor {
     protected PrintWriter getOutputWriter() {
         return out;
     }
+
+    protected Logger getLogger() { return logger; }
 }
