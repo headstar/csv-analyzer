@@ -78,8 +78,5 @@ Wildcards are supported to read multiple csv files.
 [The Apache Commons Mathematics Library](http://commons.apache.org/proper/commons-math/) is available on the classpath. The [statistics package](http://commons.apache.org/proper/commons-math/userguide/stat.html#a1.2_Descriptive_statistics) contains a number of useful functions:
 * arithmetic and geometric means
 * variance and standard deviation
-* sum, product, log sum, sum of squared values
 * minimum, maximum, median, and percentiles
-* skewness and kurtosis
-* first, second, third and fourth moments
-
+* ...and more
