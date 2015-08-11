@@ -70,7 +70,7 @@ The result is written to `/tmp/fieldlength.out`:
 ### Wildcards 
 Wildcards are supported to read multiple csv files. 
 
-`$ java -jar csv-analyzer-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i "*.csv"`
+`$ java -jar enodo-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i "*.csv"`
 
 **Note the `"` around the input file argument!**
 
