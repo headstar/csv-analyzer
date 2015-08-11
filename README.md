@@ -9,6 +9,8 @@ Utility tool to perform ad-hoc analysis on csv files when `grep`, `sed`, `awk` a
 * `$ cd enodo`
 * `$ ./gradlew build`
 
+Resulting jar is found in `./build/libs/enodo-1.0.0.jar`.
+
 ## Example
 
 Example csv file:
