@@ -25,6 +25,11 @@ public abstract class AbstractCSVProcessor implements CSVProcessor {
         // do nothing
     }
 
+    @Override
+    public void beforeFirstRow() {
+        // do nothing
+    }
+
     protected PrintWriter getOutputWriter() {
         return out;
     }

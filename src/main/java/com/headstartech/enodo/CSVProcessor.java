@@ -23,6 +23,11 @@ public interface CSVProcessor {
     boolean processRow(List<String> fields);
 
     /**
+     * Called before the first row is processed.
+     */
+    void beforeFirstRow();
+
+    /**
      * Called when all rows have been read or {@link #processRow(List)} returned <code>false</code>.
      */
     void afterLastRow();

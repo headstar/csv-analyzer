@@ -114,6 +114,7 @@ public class Application implements CommandLineRunner {
             System.exit(0);
         }
 
+        processor.beforeFirstRow();
         log.info("Output written to {}", output.getAbsoluteFile());
         PrintWriter pw = new PrintWriter(output);
         try {
