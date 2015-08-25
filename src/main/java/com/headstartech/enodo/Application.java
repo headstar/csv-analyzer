@@ -113,20 +113,27 @@ public class Application implements CommandLineRunner {
             System.exit(0);
         }
 
-        processor.beforeFirstRow();
         log.info("Output written to {}", output.getAbsoluteFile());
         PrintWriter pw = new PrintWriter(output);
         try {
-            processor.setOutputWriter(pw);
-            for (File inputFile : inputFiles) {
-                processFile(inputFile, Charset.defaultCharset(), new CSVReader(separator, processor));
+            try {
+                processor.setOutputWriter(pw);
+                processor.beforeFirstRow();
+                for (File inputFile : inputFiles) {
+
+                    processFile(inputFile, Charset.defaultCharset(), new CSVReader(separator, processor));
+
+                }
+                processor.afterLastRow();
+            } catch (RuntimeException e) {
+                log.error("Exception caught when processing, aborting...", e);
             }
-            processor.afterLastRow();
+
         } finally {
             pw.flush();
             pw.close();
         }
-	}
+    }
 
     /**
      * Posix parser ignoring unknown options to let Spring boot handle them.

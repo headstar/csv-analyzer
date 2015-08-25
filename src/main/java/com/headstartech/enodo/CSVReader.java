@@ -2,7 +2,9 @@ package com.headstartech.enodo;
 
 import com.google.common.base.Splitter;
 import com.google.common.io.LineProcessor;
+import org.slf4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,7 +24,11 @@ class CSVReader implements LineProcessor<Object> {
     @Override
     public boolean processLine(String line) throws IOException {
         List<String> fields = splitter.splitToList(line);
-        return processor.processRow(fields);
+        try {
+            return processor.processRow(fields);
+        } catch(Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
