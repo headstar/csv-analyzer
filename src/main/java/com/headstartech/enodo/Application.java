@@ -3,7 +3,6 @@ package com.headstartech.enodo;
 import com.google.common.io.Files;
 import groovy.lang.GroovyClassLoader;
 import org.apache.commons.cli.*;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -18,14 +18,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.regex.Pattern;
 
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
-
-    private static final String OUTPUT_FILE_DEFAULT = "/tmp/enodo-analyzer-report.log";
 
     public static void main(String[] args) throws Exception {
         new SpringApplicationBuilder()
@@ -57,7 +56,7 @@ public class Application implements CommandLineRunner {
         Option inputOption = Option.builder("i")
                 .hasArg()
                 .required()
-                .desc("input file/directory (filename wildcards accepted)")
+                .desc("input file/directory (regular expression can be used for filename)")
                 .build();
         options2.addOption(inputOption);
         Option separatorOption = Option.builder("c")
@@ -171,7 +170,7 @@ public class Application implements CommandLineRunner {
             if(parent == null) {
                 parent = new File(System.getProperty("user.dir"));
             }
-            String[] matchingFilenames = parent.list(new WildcardFileFilter(f.getName()));
+            String[] matchingFilenames = parent.list(new RegexFileFilter(f.getName()));
             if(matchingFilenames != null) {
                 for (String name : matchingFilenames) {
                     res.add(new File(f.getParentFile(), name));
@@ -183,5 +182,18 @@ public class Application implements CommandLineRunner {
         return res;
     }
 
+    private static class RegexFileFilter implements FilenameFilter {
+
+        private final Pattern pattern;
+
+        public RegexFileFilter(String pattern) {
+            this.pattern = Pattern.compile(pattern);
+        }
+
+        @Override
+        public boolean accept(File dir, String name) {
+            return pattern.matcher(name).matches();
+        }
+    }
 
 }
