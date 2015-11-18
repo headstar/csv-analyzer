@@ -1,5 +1,6 @@
 package com.headstartech.enodo;
 
+import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import groovy.lang.GroovyClassLoader;
 import org.apache.commons.cli.*;
@@ -121,7 +122,7 @@ public class Application implements CommandLineRunner {
                 processor.beforeFirstRow();
                 for (File inputFile : inputFiles) {
 
-                    processFile(inputFile, Charset.defaultCharset(), new CSVReader(separator, processor));
+                    processFile(inputFile, Charset.defaultCharset(), new CSVReader(Splitter.on(separator).omitEmptyStrings(), processor));
 
                 }
                 processor.afterLastRow();
