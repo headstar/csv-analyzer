@@ -70,15 +70,21 @@ The result is written to `/tmp/fieldlength.out`:
 
 ## Misc
 
-### Input/output
-Input will be read from stdin if not specified. Output will be written to stdout if not specified.
+### Input
+Input will be read from stdin if not specified. 
 
-### Wildcards 
+## Wildcards 
 Wildcards are supported to read multiple csv files. 
 
 `$ java -jar enodo-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i "*.csv"`
 
 **Note the `"` around the input file argument!**
+
+### Output
+Output will be written to stdout if not specified.
+
+### Logging
+A log file will be written to `/tmp/enodo.log`.
 
 ### Statistics
 [The Apache Commons Mathematics Library](http://commons.apache.org/proper/commons-math/) is available on the classpath. The [statistics package](http://commons.apache.org/proper/commons-math/userguide/stat.html#a1.2_Descriptive_statistics) contains a number of useful functions:
