@@ -94,6 +94,9 @@ Output will be written to `stdout` if not specified.
 ### Logging
 The application log location is `/tmp/enodo.log`.
 
+### Time & Date
+[Joda Time](http://www.joda.org/joda-time/) is available on the classpath.
+
 ### Statistics
 [The Apache Commons Mathematics Library](http://commons.apache.org/proper/commons-math/) is available on the classpath. The [statistics package](http://commons.apache.org/proper/commons-math/userguide/stat.html#a1.2_Descriptive_statistics) contains a number of useful functions:
 * arithmetic and geometric means
