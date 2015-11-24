@@ -73,7 +73,7 @@ The result written to `stdout` is:
 ### Input
 Input will be read from `stdin` if not specified. 
 
-The example above could have been run as:
+The example above can been run as:
 
 `$ cat /tmp/example.csv | java -jar build/libs/enodo-1.0.0.jar -s src/test/resources/FieldLengthCount.groovy`
 
