@@ -10,10 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +42,7 @@ public class Application implements CommandLineRunner {
         Option outputOption = Option.builder("o")
                 .hasArg()
                 .required(false)
-                .desc("Output file")
+                .desc("Output file (default stdout)")
                 .build();
         options2.addOption(outputOption);
         Option scriptOption = Option.builder("s")
@@ -56,8 +53,8 @@ public class Application implements CommandLineRunner {
         options2.addOption(scriptOption);
         Option inputOption = Option.builder("i")
                 .hasArg()
-                .required()
-                .desc("input file/directory (regular expression can be used for filename)")
+                .required(false)
+                .desc("input file/directory (default stdin)")
                 .build();
         options2.addOption(inputOption);
         Option separatorOption = Option.builder("c")
@@ -91,9 +88,7 @@ public class Application implements CommandLineRunner {
             System.exit(1);
         }
 
-        File output = new File(cmd.getOptionValue("o", String.format("%s%senodo.out", System.getProperty("java.io.tmpdir"), System.getProperty("file.separator"))));
         File groovyScript = new File(cmd.getOptionValue("s"));
-        String inputFilePath = cmd.getOptionValue("i");
         String separator = cmd.getOptionValue("c", ",");
 
         log.info("Loading Groovy script {}", groovyScript.getAbsolutePath());
@@ -107,23 +102,39 @@ public class Application implements CommandLineRunner {
         }
         CSVProcessor processor = (CSVProcessor) groovyObject;
 
-        List<File> inputFiles = collectFiles(inputFilePath);
 
-        if(inputFiles.isEmpty()) {
-            log.warn("No files matching {}", inputFilePath);
-            System.exit(0);
-        }
-
-        log.info("Output written to {}", output.getAbsoluteFile());
-        PrintWriter pw = new PrintWriter(output);
+        PrintWriter pw = null;
         try {
+            if(cmd.hasOption("o")) {
+                File output = new File(cmd.getOptionValue("o"));
+                log.info("Output written to {}", output.getAbsoluteFile());
+                pw = new PrintWriter(output);
+            } else {
+                log.info("Output written to stdout");
+                pw =  new PrintWriter(System.out);
+            }
             try {
                 processor.setOutputWriter(pw);
                 processor.beforeFirstRow();
-                for (File inputFile : inputFiles) {
 
-                    processFile(inputFile, Charset.defaultCharset(), new CSVReader(Splitter.on(separator).omitEmptyStrings(), processor));
+                CSVReader csvReader = new CSVReader(Splitter.on(separator).omitEmptyStrings(), processor);
 
+                String inputFilePath = cmd.getOptionValue("i");
+                if(inputFilePath != null) {
+                    List<File> inputFiles = collectFiles(inputFilePath);
+                    if (inputFiles.isEmpty()) {
+                        log.warn("No files matching {}", inputFilePath);
+                    }
+                    for (File inputFile : inputFiles) {
+                        processFile(inputFile, Charset.defaultCharset(), csvReader);
+
+                    }
+                } else {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                    String line;
+                    while((line = br.readLine()) != null) {
+                        csvReader.processLine(line);
+                    }
                 }
                 processor.afterLastRow();
             } catch (RuntimeException e) {
@@ -131,8 +142,10 @@ public class Application implements CommandLineRunner {
             }
 
         } finally {
-            pw.flush();
-            pw.close();
+            if(pw != null) {
+                pw.flush();
+                pw.close();
+            }
         }
     }
 
