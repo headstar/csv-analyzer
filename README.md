@@ -73,6 +73,10 @@ The result written to `stdout` is:
 ### Input
 Input will be read from `stdin` if not specified. 
 
+The example above could have been run as:
+
+`$ cat /tmp/example.csv | java -jar build/libs/enodo-1.0.0.jar -s src/test/resources/FieldLengthCount.groovy`
+
 #### Regular expression filter
 Regular expressions are supported when specifying the input.
 
