@@ -73,13 +73,6 @@ The result is written to `/tmp/fieldlength.out`:
 ### Input
 Input will be read from stdin if not specified. 
 
-#### Wildcards 
-Wildcards are supported to read multiple csv files. 
-
-`$ java -jar enodo-1.0.0.jar -s FieldLengthStats.groovy -i "*.csv"`
-
-**Note the `"` around the input file argument!**
-
 #### Regular expression filter
 Regular expressions are supported when specifying the input.
 
@@ -89,6 +82,7 @@ If an example produces files with the pattern "myapp.yyyymmdd_hhmmss", the patte
 
 `$ java -jar enodo-1.0.0.jar -s FieldLengthStats.groovy -i "myapp.201510.._(23)+.*"`
 
+**Note the `"` around the input file argument!**
 
 ### Output
 Output will be written to stdout if not specified.
