@@ -76,9 +76,19 @@ Input will be read from stdin if not specified.
 #### Wildcards 
 Wildcards are supported to read multiple csv files. 
 
-`$ java -jar enodo-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i "*.csv"`
+`$ java -jar enodo-1.0.0.jar -s FieldLengthStats.groovy -i "*.csv"`
 
 **Note the `"` around the input file argument!**
+
+#### Regular expression filter
+Regular expressions are supported when specifying the input.
+
+Example:
+
+If an example produces files with the pattern "myapp.yyyymmdd_hhmmss", the pattern below could be used to process all files written between 23 p.m and midnight in October 2015.
+
+`$ java -jar enodo-1.0.0.jar -s FieldLengthStats.groovy -i "myapp.201510.._(23)+.*"`
+
 
 ### Output
 Output will be written to stdout if not specified.
