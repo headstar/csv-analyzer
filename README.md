@@ -88,7 +88,7 @@ If an example produces files with the pattern "myapp.yyyymmdd_hhmmss", the patte
 Output will be written to `stdout` if not specified.
 
 ### Logging
-A log file will be written to `/tmp/enodo.log`.
+The application log location is `/tmp/enodo.log`.
 
 ### Statistics
 [The Apache Commons Mathematics Library](http://commons.apache.org/proper/commons-math/) is available on the classpath. The [statistics package](http://commons.apache.org/proper/commons-math/userguide/stat.html#a1.2_Descriptive_statistics) contains a number of useful functions:
