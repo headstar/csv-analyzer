@@ -69,6 +69,10 @@ The result is written to `/tmp/fieldlength.out`:
     Mean: 3.89
 
 ## Misc
+
+### Input/output
+Input will be read from stdin if not specified. Output will be written to stdout if not specified.
+
 ### Wildcards 
 Wildcards are supported to read multiple csv files. 
 
