@@ -59,9 +59,9 @@ To generate field length statistics, the following groovy script will do the tri
   
 Run the utility:
 
-`$ java -jar enodo-1.0.0.jar -i /tmp/example.csv -o /tmp/fieldlength.out -s src/test/resources/FieldLengthCount.groovy`
+`$ java -jar enodo-1.0.0.jar -i /tmp/example.csv -s src/test/resources/FieldLengthCount.groovy`
   
-The result is written to `/tmp/fieldlength.out`:
+The result written to `stdout` is:
 
     N: 9
     Min: 3.00
@@ -71,7 +71,7 @@ The result is written to `/tmp/fieldlength.out`:
 ## Misc
 
 ### Input
-Input will be read from stdin if not specified. 
+Input will be read from `stdin` if not specified. 
 
 #### Regular expression filter
 Regular expressions are supported when specifying the input.
@@ -85,7 +85,7 @@ If an example produces files with the pattern "myapp.yyyymmdd_hhmmss", the patte
 **Note the `"` around the input file argument!**
 
 ### Output
-Output will be written to stdout if not specified.
+Output will be written to `stdout` if not specified.
 
 ### Logging
 A log file will be written to `/tmp/enodo.log`.
