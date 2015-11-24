@@ -73,7 +73,7 @@ The result is written to `/tmp/fieldlength.out`:
 ### Input
 Input will be read from stdin if not specified. 
 
-## Wildcards 
+#### Wildcards 
 Wildcards are supported to read multiple csv files. 
 
 `$ java -jar enodo-1.0.0.jar -o /tmp/fieldlength.out -s FieldLengthStats.groovy -i "*.csv"`
