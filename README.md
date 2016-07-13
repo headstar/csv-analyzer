@@ -5,7 +5,7 @@ Utility tool to perform ad-hoc analysis on csv files when `grep`, `sed`, `awk` a
 * Java 6 (or later)
 
 ## Build
-* Download ZIP or `$ git clone https://github.com/headstar/enodo.git` 
+* [Download ZIP](https://github.com/headstar/enodo/archive/master.zip) or `$ git clone https://github.com/headstar/enodo.git` 
 * `$ cd enodo`
 * `$ ./gradlew build`
 
