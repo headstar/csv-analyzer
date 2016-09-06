@@ -186,6 +186,7 @@ public class Application implements CommandLineRunner {
 
         List<File> res = new ArrayList<File>();
         if(f.isDirectory()) {
+            log.debug("Adding all files in directory: directory={}", f.getAbsolutePath());
             String[] files = f.list();
             for(String name : files) {
                 res.add(new File(f, name));
@@ -195,6 +196,8 @@ public class Application implements CommandLineRunner {
             if(parent == null) {
                 parent = new File(System.getProperty("user.dir"));
             }
+            log.debug("Searching for input files in directory: directory={}", parent.getAbsolutePath());
+
             String[] matchingFilenames = parent.list(new RegexFileFilter(f.getName()));
             if(matchingFilenames != null) {
                 for (String name : matchingFilenames) {
@@ -207,7 +210,7 @@ public class Application implements CommandLineRunner {
         return res;
     }
 
-    private static class RegexFileFilter implements FilenameFilter {
+    private class RegexFileFilter implements FilenameFilter {
 
         private final Pattern pattern;
 
@@ -217,7 +220,9 @@ public class Application implements CommandLineRunner {
 
         @Override
         public boolean accept(File dir, String name) {
-            return pattern.matcher(name).matches();
+            boolean res = pattern.matcher(name).matches();
+            log.debug("Matching file: fileName={}, regexpPattern={}, match={}", name, pattern.pattern(), res);
+            return res;
         }
     }
 
