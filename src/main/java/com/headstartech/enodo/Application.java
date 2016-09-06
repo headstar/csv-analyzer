@@ -117,7 +117,11 @@ public class Application implements CommandLineRunner {
                 processor.setOutputWriter(pw);
                 processor.beforeFirstRow();
 
-                CSVReader csvReader = new CSVReader(Splitter.on(separator), processor);
+                Splitter splitter = null;
+                if(!separator.isEmpty()) {
+                    splitter = Splitter.on(separator);
+                }
+                CSVReader csvReader = new CSVReader(splitter, processor);
 
                 String inputFilePath = cmd.getOptionValue("i");
                 if(inputFilePath != null) {

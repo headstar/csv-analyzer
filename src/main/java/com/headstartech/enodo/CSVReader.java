@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,14 @@ class CSVReader implements LineProcessor<Object> {
 
     @Override
     public boolean processLine(String line) throws IOException {
-        List<String> fields = splitter.splitToList(line);
+        List<String> fields;
+        if(splitter != null) {
+            fields = splitter.splitToList(line);
+        } else {
+            fields = new ArrayList<String>();
+            fields.add(line);
+        }
+
         try {
             return processor.processRow(fields);
         } catch(Throwable e) {
